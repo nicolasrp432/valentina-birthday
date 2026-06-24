@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Para Valentina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #FAF8F5;
+      --bg-card:   #F4F0EB;
+      --ink:       #1C1A18;
+      --ink-soft:  #6B6460;
+      --accent:    #B8977E;
+      --accent-2:  #D4B89A;
+      --border:    #E8E3DC;
+      --white:     #FFFFFF;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── COVER ─────────────────────────────────────────────── */
+    #cover {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      z-index: 10;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+
+    #cover.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .cover-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    .cover-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.8rem, 14vw, 7rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .cover-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .cover-divider {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      margin: 2.5rem auto;
+    }
+
+    .cover-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.75rem 2.2rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: border-color 0.3s, color 0.3s, background 0.3s;
+    }
+
+    .cover-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(184,151,126,0.04);
+    }
+
+    /* ── CONTENT ────────────────────────────────────────────── */
+    #content {
+      opacity: 0;
+      transition: opacity 1.2s ease 0.3s;
+      min-height: 100vh;
+      padding: 0 1.5rem 5rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    #content.visible { opacity: 1; }
+
+    /* audio control */
+    .audio-bar {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 20;
+      opacity: 0;
+      transition: opacity 0.6s ease 1.5s;
+    }
+
+    .audio-bar.visible { opacity: 1; }
+
+    .audio-btn {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .audio-btn:hover {
+      border-color: var(--accent);
+      transform: scale(1.05);
+    }
+
+    .audio-btn svg { width: 14px; height: 14px; fill: var(--accent); }
+
+    /* header */
+    .page-header {
+      padding-top: clamp(3rem, 10vw, 4.5rem);
+      padding-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .page-tag {
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .page-title .t-felices {
+      font-size: clamp(3.2rem, 16vw, 6.5rem);
+      line-height: 1;
+      display: block;
+    }
+
+    .page-title .t-num {
+      font-size: clamp(7rem, 38vw, 15rem);
+      line-height: 0.78;
+      display: block;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* photo */
+    .photo-wrap {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-card);
+      aspect-ratio: 3/4;
+      margin-bottom: 3rem;
+    }
+
+    .photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: sepia(12%) contrast(1.04) brightness(1.01);
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--accent-2);
+    }
+
+    .photo-placeholder svg { width: 32px; height: 32px; opacity: 0.5; }
+
+    .photo-placeholder span {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 1.2rem 1rem;
+      background: linear-gradient(to top, rgba(250,248,245,0.85), transparent);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink-soft);
+      text-align: center;
+    }
+
+    /* message */
+    .message-block {
+      padding: 0 0.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .message-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.25rem, 4.5vw, 1.5rem);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink);
+      min-height: 8em;
+    }
+
+    .message-text .cursor {
+      display: inline-block;
+      width: 1px;
+      height: 1.1em;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    .cursor.done { animation: none; opacity: 0; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .message-sign {
+      margin-top: 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--ink-soft);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .message-sign.visible { opacity: 1; }
+
+    /* invite card */
+    .invite-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .invite-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .invite-label {
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .invite-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ink);
+      margin-bottom: 1.75rem;
+    }
+
+    .invite-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      transition: opacity 0.4s ease;
+    }
+
+    .btn-yes {
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: 2px;
+      padding: 0.9rem 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s, color 0.3s, transform 0.15s;
+    }
+
+    .btn-yes:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.01);
+    }
+
+    /* confirmation state */
+    #confirm-state {
+      display: none;
+      text-align: center;
+      padding: 0.5rem 0 0.25rem;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    #confirm-state.visible { opacity: 1; }
+
+    .confirm-emoji {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 0.9rem;
+      animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(0); opacity: 0; }
+      70%  { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .confirm-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .confirm-sub {
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--ink-soft);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #25D366;
+      border: none;
+      border-radius: 2px;
+      padding: 0.85rem 1.6rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.15s;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1ebe5d;
+      transform: scale(1.02);
+    }
+
+    .btn-whatsapp svg {
+      width: 15px;
+      height: 15px;
+      fill: #fff;
+      flex-shrink: 0;
+    }
+
+    /* footer */
+    .page-footer {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent-2);
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 380px) {
+      .cover-name { font-size: 3.2rem; }
+      #content { padding: 0 1.2rem 4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ COVER ══════════════════════════════════════════════ -->
+  <div id="cover">
+    <span class="cover-eyebrow">Disfruta tu día</span>
+    <h1 class="cover-name">Para<br><em>Valentina</em></h1>
+    <div class="cover-divider"></div>
+    <button class="cover-btn" id="open-btn">Abrir</button>
+  </div>
+
+  <!-- ══ AUDIO ═══════════════════════════════════════════════ -->
+  <!--
+    INSTRUCCIONES:
+    1. Añade tu archivo de música como "song.mp3" en la misma carpeta que este HTML.
+    2. O sustituye "song.mp3" por una URL directa de audio (ej: Dropbox con ?raw=1, CDN, etc.)
+    3. Si usas Vercel: sube el .mp3 a /public/song.mp3 y cambia src a "/song.mp3"
+  -->
+  <audio id="audio" loop preload="none">
+    <source src="song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="audio-bar" id="audio-bar">
+    <button class="audio-btn" id="audio-btn" title="Música">
+      <!-- Play icon (default) -->
+      <svg id="icon-play" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <!-- Pause icon (hidden by default) -->
+      <svg id="icon-pause" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ══ CONTENT ═════════════════════════════════════════════ -->
+  <div id="content">
+
+    <header class="page-header">
+      <span class="page-tag">Feliz cumpleaños</span>
+      <h2 class="page-title">
+        <span class="t-felices">Felices</span>
+        <span class="t-num">25</span>
+      </h2>
+    </header>
+
+    <!-- FOTO ------------------------------------------------- -->
+    <!--
+      INSTRUCCIONES FOTO:
+      Para añadir la foto, sustituye el div.photo-placeholder por:
+      <img src="foto.jpg" alt="Valentina" />
+      dentro del div.photo-wrap. El filtro editorial ya está aplicado por CSS.
+    -->
+    <div class="photo-wrap" id="photo-wrap">
+      <div class="photo-placeholder" id="photo-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+        <span>Tu foto aquí</span>
+      </div>
+      <div class="photo-caption">
+        — un día cualquiera en que todo estuvo bien
+      </div>
+    </div>
+
+    <!-- MENSAJE --------------------------------------------- -->
+    <div class="message-block">
+      <p class="message-text" id="message-text">
+        <span id="typed"></span><span class="cursor" id="cursor"></span>
+      </p>
+      <p class="message-sign" id="message-sign">Con cariño ✦</p>
+    </div>
+
+    <!-- INVITACIÓN ------------------------------------------ -->
+    <div class="invite-card" id="invite-card">
+      <span class="invite-label">Una propuesta</span>
+      <p class="invite-text">
+        Si te apetece celebrarlo conmigo, escríbeme. 🎂
+      </p>
+      <div class="invite-actions" id="invite-actions">
+        <button class="btn-yes" id="btn-yes">Me apetece 👀</button>
+      </div>
+
+      <!-- Estado confirmación -->
+      <div id="confirm-state">
+        <span class="confirm-emoji">🥂</span>
+        <p class="confirm-title">¡Qué buena noticia!</p>
+        <p class="confirm-sub">Te espero al otro lado.</p>
+        <a
+          class="btn-whatsapp"
+          href="https://wa.me/34665015804?text=%F0%9F%8E%82%20Hola%2C%20me%20apetece%20mucho%20celebrarlo%20contigo"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Escribir ahora
+        </a>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <span class="footer-mark">V.</span>
+    </footer>
+
+  </div><!-- /#content -->
+
+  <script>
+    // ── CONFIG ─────────────────────────────────────────────
+    const MESSAGE = "Sé que estamos lejos, pero hoy no podía no decirte nada. " +
+      "Feliz cumpleaños, Valentina. Espero que estés pasándola genial " +
+      "y que este año te traiga todo lo que mereces — y un poco más.";
+
+    const TYPING_SPEED = 28; // ms por carácter
+
+    // ── ELEMENTS ───────────────────────────────────────────
+    const cover        = document.getElementById('cover');
+    const openBtn      = document.getElementById('open-btn');
+    const content      = document.getElementById('content');
+    const audioBar     = document.getElementById('audio-bar');
+    const audioEl      = document.getElementById('audio');
+    const audioBtn     = document.getElementById('audio-btn');
+    const iconPlay     = document.getElementById('icon-play');
+    const iconPause    = document.getElementById('icon-pause');
+    const typedEl      = document.getElementById('typed');
+    const cursor       = document.getElementById('cursor');
+    const msgSign      = document.getElementById('message-sign');
+    const inviteCard   = document.getElementById('invite-card');
+    const btnYes       = document.getElementById('btn-yes');
+    const invActions   = document.getElementById('invite-actions');
+    const confirmState = document.getElementById('confirm-state');
+
+    // ── STATE ──────────────────────────────────────────────
+    let isPlaying = false;
+
+    // ── OPEN ───────────────────────────────────────────────
+    openBtn.addEventListener('click', () => {
+      audioEl.load();
+      audioEl.play().then(() => {
+        isPlaying = true;
+        iconPlay.style.display  = 'none';
+        iconPause.style.display = 'block';
+      }).catch(() => {});
+
+      cover.classList.add('hidden');
+      setTimeout(() => {
+        content.classList.add('visible');
+        audioBar.classList.add('visible');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        setTimeout(startTyping, 900);
+      }, 300);
+    });
+
+    // ── TYPEWRITER ─────────────────────────────────────────
+    function startTyping() {
+      let i = 0;
+      const len = MESSAGE.length;
+      function tick() {
+        if (i < len) {
+          typedEl.textContent += MESSAGE[i];
+          i++;
+          setTimeout(tick, TYPING_SPEED + (Math.random() * 12 - 6));
+        } else {
+          cursor.classList.add('done');
+          setTimeout(() => {
+            msgSign.classList.add('visible');
+            setTimeout(() => inviteCard.classList.add('visible'), 600);
+          }, 500);
+        }
+      }
+      tick();
+    }
+
+    // ── AUDIO TOGGLE ───────────────────────────────────────
+    audioBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        audioEl.pause();
+        isPlaying = false;
+        iconPlay.style.display  = 'block';
+        iconPause.style.display = 'none';
+      } else {
+        audioEl.play().then(() => {
+          isPlaying = true;
+          iconPlay.style.display  = 'none';
+          iconPause.style.display = 'block';
+        });
+      }
+    });
+
+    // ── CONFIRM BUTTON ─────────────────────────────────────
+    btnYes.addEventListener('click', () => {
+      invActions.style.opacity = '0';
+      setTimeout(() => {
+        invActions.style.display = 'none';
+        confirmState.style.display = 'block';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => confirmState.classList.add('visible'));
+        });
+      }, 350);
+    });
+  </script>
+
+</body>
+</html>
