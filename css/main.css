@@ -1,0 +1,194 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+/* ── CONTENT ────────────────────────────────────────────── */
+#content {
+  opacity: 0;
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+  min-height: 100vh;
+  padding: 0 1.5rem 5rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+#content.visible {
+  opacity: 1;
+}
+
+/* ── AUDIO CONTROL ──────────────────────────────────────── */
+.audio-bar {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.6s ease 1.5s;
+}
+
+.audio-bar.visible {
+  opacity: 1;
+}
+
+.audio-btn {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.audio-btn:hover {
+  border-color: var(--accent);
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.audio-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--accent);
+  transition: fill 0.3s;
+}
+
+.audio-btn:hover svg {
+  fill: var(--accent-2);
+}
+
+/* ── HEADER ─────────────────────────────────────────────── */
+.page-header {
+  padding-top: clamp(4rem, 12vw, 5.5rem);
+  padding-bottom: 2.5rem;
+  text-align: center;
+}
+
+.page-tag {
+  font-size: 0.65rem;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.8rem;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+#content.visible .page-tag {
+  animation: slideInUpSimple 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
+}
+
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.page-title .t-felices {
+  font-size: clamp(3.2rem, 16vw, 6.5rem);
+  line-height: 1;
+  display: block;
+  font-weight: 300;
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+#content.visible .t-felices {
+  animation: slideInUpSimple 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.7s forwards;
+}
+
+.page-title .t-num {
+  font-size: clamp(7.5rem, 40vw, 16rem);
+  line-height: 0.76;
+  margin-top: -0.22em;
+  display: block;
+  font-style: italic;
+  font-weight: 300;
+  background: linear-gradient(135deg, var(--gold-start) 0%, var(--gold-mid) 50%, var(--gold-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0px 2px 4px rgba(184, 151, 126, 0.15));
+  background-size: 200% auto;
+  animation: goldShimmer 6s infinite linear;
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+}
+
+#content.visible .t-num {
+  animation: numReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.9s forwards, goldShimmer 6s infinite linear;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.page-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent-2);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 380px) {
+  #content {
+    padding: 0 1.2rem 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Helper Animations */
+@keyframes slideInUpSimple {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes numReveal {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes goldShimmer {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}

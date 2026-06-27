@@ -1,0 +1,47 @@
+.message-block {
+  padding: 0 0.25rem;
+  margin-bottom: 3.5rem;
+}
+
+.message-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.25rem, 4.5vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--ink);
+  min-height: 7em;
+}
+
+.message-text .cursor {
+  display: inline-block;
+  width: 1px;
+  height: 1.1em;
+  background: var(--accent);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+.cursor.done {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.message-sign {
+  margin-top: 2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.message-sign.visible {
+  opacity: 1;
+}

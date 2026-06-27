@@ -1,0 +1,15 @@
+:root {
+  --bg:        #FAF8F5;
+  --bg-card:   #F4F0EB;
+  --ink:       #1C1A18;
+  --ink-soft:  #6B6460;
+  --accent:    #B8977E;
+  --accent-2:  #D4B89A;
+  --border:    #E8E3DC;
+  --white:     #FFFFFF;
+
+  /* Golden/Champagne gradient tokens */
+  --gold-start: #ecc480;
+  --gold-mid:   #c4975a;
+  --gold-end:   #ecc480;
+}

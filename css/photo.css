@@ -1,0 +1,77 @@
+.photo-wrap {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-card);
+  aspect-ratio: 3/4;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 30px rgba(28, 26, 24, 0.05);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+#content.visible .photo-wrap {
+  animation: photoReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) 1.1s forwards;
+}
+
+.photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(10%) contrast(1.02) brightness(1.01);
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.photo-wrap:hover img {
+  transform: scale(1.03);
+}
+
+.photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem 1.2rem 1.2rem;
+  background: linear-gradient(to top, rgba(250, 248, 245, 0.95) 20%, rgba(250, 248, 245, 0.8) 50%, transparent 100%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink-soft);
+  text-align: center;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* Fallback placeholder style if image fails to load */
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--accent-2);
+}
+
+.photo-placeholder svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+}
+
+.photo-placeholder span {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+@keyframes photoReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
